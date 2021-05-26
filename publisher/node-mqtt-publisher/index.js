@@ -26,7 +26,7 @@ async function publishdata() {
   let obj = {
         "time" : new Date(),
         "container" : id,
-        "ip" :  ip
+        "ip" :  contip
         };
   client.publish('upb/ds/class', JSON.stringify(obj));
 }
