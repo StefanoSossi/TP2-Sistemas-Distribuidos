@@ -16,19 +16,25 @@ const options = {
 };
 const client = mqtt.connect(options);
 const topic="upb/ds/class"
-
+let contip = "";
 let ip = dockerIpTools.getContainerIp()
-  .then((containerIp) => containerIp );
-  console.log(ip); 
+  .then((containerIp) => saveIp(containerIp) );
+  console.log(contip);
 
 async function publishdata() {
   let id = await getId();
   let obj = {
-	"time" : new Date(),
-	"container" : id,
-	"ip" :  ip
-	};
+        "time" : new Date(),
+        "container" : id,
+        "ip" :  ip
+        };
   client.publish('upb/ds/class', JSON.stringify(obj));
 }
 
-setInterval(publishdata, 2500); 
+function saveIp(ip){
+    contip = ip;
+}
+
+
+setInterval(publishdata, 2500);
+
