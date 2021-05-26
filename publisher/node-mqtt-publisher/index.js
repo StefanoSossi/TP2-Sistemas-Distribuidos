@@ -19,14 +19,14 @@ const topic="upb/ds/class"
 let contip = "";
 let ip = dockerIpTools.getContainerIp()
   .then((containerIp) => saveIp(containerIp) );
-  console.log(contip);
+  console.log("Ip: " + contip);
 
 async function publishdata() {
   let id = await getId();
   let obj = {
         "time" : new Date(),
         "container" : id,
-        "ip" :  ip
+        "ip" :  contip
         };
   client.publish('upb/ds/class', JSON.stringify(obj));
 }
