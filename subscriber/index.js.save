@@ -1,0 +1,18 @@
+var mqtt = require('mqtt');
+
+var PORT = 7777;
+const options = {
+    host: address,
+    port: PORT,
+    keepalive: 60,
+};
+var client = mqtt.connect(options);
+var topic="upb/ds/class"
+client.on('connect', () => {
+    client.subscribe(topic)
+})
+client.on('message', function (topic, message) {
+    console.log("[Received] topic: " + topic.toString());  //Print topic name
+    console.log("[Received] message: " + message.toString()); //Print payload
+})
+
