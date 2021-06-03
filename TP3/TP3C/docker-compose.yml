@@ -1,0 +1,41 @@
+version: "3.0" 
+services:
+   mqtt:
+            image: eclipse-mosquitto
+            ports: 
+               - 1883:1883
+            volumes:
+               - /tmp/mosquitto.conf:/mosquitto/config/mosquitto.conf
+            deploy:
+                replicas: 1
+                restart_policy:
+                      condition: on-failure
+                placement: 
+                      constraints: [node.role == manager]
+
+
+   subscriber:
+            image: 10.1.2.123:5000/node-mqtt-subscriber
+            build: ./node-mqtt-subscriber
+            ports:
+                 - "8888:8888"
+            environment:
+                - PORT=1883
+                - ADDRESS=10.1.2.123
+                - TOPIC=upb/ds/class
+            deploy:
+                replicas: 5
+                placement:
+                      constraints: [node.role == worker]
+  
+   publisher:
+            image: 10.1.2.123:5000/node-mqtt-publisher
+            build: ./node-mqtt-publisher
+            ports:
+                 - "8080:8080"
+            deploy:
+                replicas: 5
+                placement:
+                      constraints: [node.role == manager]
+
+
