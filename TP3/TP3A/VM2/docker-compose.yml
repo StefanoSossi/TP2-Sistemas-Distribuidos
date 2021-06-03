@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+   node-mqtt-subscriber:
+            image: node-mqtt-subscriber
+            environment:
+                - PORT=1883
+                - ADDRESS=10.1.2.123
+                - TOPIC=upb/ds/class
+            deploy:
+                replicas: 5
+
