@@ -1,0 +1,83 @@
+import time
+from umqttsimple import MQTTClient
+import ubinascii
+import machine
+import micropython
+import network
+import esp
+from machine import Pin, I2C
+import ssd1306
+from time import sleep
+esp.osdebug(None)
+import gc
+gc.collect()
+
+oled_width = 128
+oled_height = 64
+i2c_rst = Pin(16, Pin.OUT)
+# Initialize the OLED display
+i2c_rst.value(0)
+time.sleep_ms(5)
+i2c_rst.value(1)
+
+i2c_scl = Pin(15, Pin.OUT, Pin.PULL_UP)
+i2c_sda = Pin(4, Pin.OUT, Pin.PULL_UP)
+
+i2c = I2C(scl=i2c_scl, sda=i2c_sda)
+# Create the display object
+oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
+
+
+
+
+
+ssid = 'VALENZUELA WIFI'
+password = 'Dermovate98$'
+mqtt_server = 'research.upb.edu'
+#EXAMPLE IP ADDRESS
+#mqtt_server = '192.168.1.144'
+client_id = ubinascii.hexlify(machine.unique_id())
+topic_sub = b'upb/ds/class'
+topic_pub = b'hello'
+
+last_message = 0
+message_interval = 5
+counter = 0
+
+station = network.WLAN(network.STA_IF)
+station.active(True)
+
+oled.fill(0)
+
+print("Available networks")
+print(station.scan())
+
+availalblenetworks = str(station.scan())
+#oled.text(str(station.scan()), 0, 0)
+        
+
+station.connect(ssid, password)
+
+while station.isconnected() == False:
+  pass
+
+
+print('Connection successful')
+print(station.ifconfig())
+#oled.text(str(station.ifconfig()), 0, 10)
+
+screen1 = [[0,0, availalblenetworks],[0,16, str(station.ifconfig())]]
+
+def scroll_in_screen(screen):
+  for i in range (0, oled_width+1, 4):
+    for line in screen:
+      oled.text(line[2], -oled_width+i, line[1])
+    oled.show()
+    if i!= oled_width:
+      oled.fill(0)
+
+
+scroll_in_screen(screen1)
+
+#oled.show()
+
