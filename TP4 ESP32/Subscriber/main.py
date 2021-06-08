@@ -1,11 +1,15 @@
 from time import sleep
 from boot import scroll_in_screen
+
 def sub_cb(topic, msg):
-  global oled, i2c_rst
+  global oled, i2c_rst, led
+  led.value(1)
   oled.fill(0)
   oled.show()
   screen2 =[[0,30, msg]]
   scroll_in_screen(screen2)
+  sleep(0.5)
+  led.value(0)
  #oled.text(msg, 0, 30)
   #oled.show()
   print((topic, msg))

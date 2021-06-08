@@ -4,11 +4,21 @@ def connect():
   global client_id, mqtt_server, topic_pub
   client = MQTTClient(client_id, mqtt_server)
   client.connect()
-  print('Connected to %s MQTT broker, subscribed to %s topic' % (mqtt_server, topic_pub))
+  msg = 'Connected to %s MQTT broker, publishing to %s topic' % (mqtt_server, topic_pub)
+  print( msg )
+  oled.fill(0)
+  oled.show()
+  screen2 =[[0,30, msg]]
+  scroll_in_screen(screen2)
   return client
 
 def restart_and_reconnect():
-  print('Failed to connect to MQTT broker. Reconnecting...')
+  msg = 'Failed to connect to MQTT broker. Reconnecting...'
+  print( msg )
+  oled.fill(0)
+  oled.show()
+  screen2 =[[0,30, msg]]
+  scroll_in_screen(screen2)
   time.sleep(10)
   machine.reset()
 

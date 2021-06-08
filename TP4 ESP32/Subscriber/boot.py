@@ -27,7 +27,7 @@ i2c = I2C(scl=i2c_scl, sda=i2c_sda)
 # Create the display object
 oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 
-
+led = Pin(25, Pin.OUT)
 
 
 
