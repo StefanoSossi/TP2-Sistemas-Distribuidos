@@ -22,9 +22,22 @@ const client = mqtt.connect(options);
 const topicMaster='upb/master/register'
 
 let contip = "";
+let id = await getId();
+const topicEsp32 = 'upb/'+id+'/response'
 let ip = dockerIpTools.getContainerIp()
   .then((containerIp) => saveIp(containerIp) );
   console.log("Ip: " + contip);
+
+
+client.on('connect', () => {
+    client.subscribe(topicEsp32)
+    publishMaster();
+})
+client.on('message', function (topic, message) {
+    console.log("[Received] topic: " + topic.toString());  //Print topic name
+    console.log("[Received] message: " + message.toString()); //Print payload
+    publishEsp32();
+})
 
 async function publishMaster() {
   let id = await getId();
@@ -38,12 +51,12 @@ async function publishEsp32() {
   freq = freq.toFixed(2);
   let iteration = Math.random() * (maxite - minite) + minite;
   iteration = iteration.toFixed(2);
-  let id = await getId();
+  
   let obj = {
         "freq" : freq,
         "iteration" :  iteration
         };
-  let topicEsp32 = 'upb/'+id+'/response'
+  
   client.publish(topicEsp32, JSON.stringify(obj));
 }
 
@@ -53,5 +66,5 @@ function saveIp(ip){
 }
 
 
-setInterval(publishMaster, 2500);
-setInterval(publishEsp32, 2500);
+//setInterval(publishMaster, 2500);
+//setInterval(publishEsp32, 2500);
