@@ -1,6 +1,6 @@
 const mqtt = require('mqtt');
 const MongoClient = require('mongodb').MongoClient;
-const url = "mongodb://mongo:27017/";
+const url = "mongodb://mongo:27017/tp5-db";
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
