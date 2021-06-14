@@ -12,27 +12,28 @@ services:
                       condition: on-failure
                 placement: 
                       constraints: [node.role == manager]
-   node-mqtt-publisher:
+   mongo:
+            image: mongo
+            ports:
+               - 27017:27017
+            deploy:
+                replicas: 1
+                placement:
+                      constraints: [node.role == manager]                 
+   node-master:
             image: node-master
+            ports:
+               - 8080:8080  
             environment:
-                - PORT=1883
-                - ADDRESS=192.168.100.196
+                - PORT=11232
+                - ADDRESS=research.upb.edu
                 - TOPIC=upb/master/+
             deploy:
                 replicas: 1
                 placement:
                        constraints: [node.role == manager]
             depends_on:
-                - mqtt
-   node-mqtt-subscriber:
-            image: node-mqtt-subscriber
-            environment:
-                - PORT=1883
-                - ADDRESS=10.1.2.123
-                - TOPIC=upb/ds/class
-            deploy:
-                replicas: 5
-                placement:
-                      constraints: [node.role == worker]
+                - mongo
+
 
 
