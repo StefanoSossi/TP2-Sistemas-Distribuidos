@@ -1,6 +1,14 @@
 const mqtt = require('mqtt');
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://mongo:27017/tp5-db";
+const http = require('http');
+
+//create a server object:
+http.createServer(function (req, res) {
+  res.write('OK'); //write a response to the client
+  res.end(); //end the response
+}).listen(8080); //the server object listens on port 8080 
+
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
