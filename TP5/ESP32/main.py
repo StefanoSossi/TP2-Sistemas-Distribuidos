@@ -15,9 +15,9 @@ def restart_and_reconnect():
   time.sleep(10)
   machine.reset()
 
-def request_worker():
+def request_worker(client):
   try:
-    client.check_msg()
+    #client.check_msg()
     #msg al master ==> {sensor_id : "", worker : "" }
     global oled, idesp32, workerid
     msg = b'{ sensor_id : %s, worker : %s }' % (idesp32, workerid)
@@ -32,7 +32,7 @@ def request_worker():
   except OSError as e:
     restart_and_reconnect()
 
-def request_work():
+def request_work(client):
   try:
     #client.check_msg()
     #msg al worker ==> {sensor_id : "" }
@@ -73,14 +73,14 @@ def subscribe_master():
   client = connectBroker()
   client.subscribe(master_sub)
   print('Connected to %s MQTT Master, subscribed to %s topic' % (mqtt_server, master_sub))
-  request_worker()
+  request_worker(client)
   return client
 
 def subscribe_Worker():
   client = connectBroker()
   client.subscribe(worker_sub)
   print('Connected to %s MQTT Worker, subscribed to %s topic' % (mqtt_server, worker_sub))
-  request_work()
+  request_work(client)
   return client
 
 def sub_cb(topic, msg):

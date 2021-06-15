@@ -13,7 +13,7 @@ def sub_cb(topic, msg):
  #oled.text(msg, 0, 30)
   #oled.show()
   print((topic, msg))
-  if topic == b'upb/ds/class':
+  if topic == b'upb/master/response':
     print('ESP received message')
 
 def connect_and_subscribe():
@@ -40,7 +40,7 @@ while True:
     client.check_msg()
     if (time.time() - last_message) > message_interval:
       msg = b'Hello #%d' % counter
-      client.publish(topic_pub, msg)
+      #client.publish(topic_pub, msg)
       last_message = time.time()
       counter += 1
   except OSError as e:

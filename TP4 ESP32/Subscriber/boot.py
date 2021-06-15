@@ -31,13 +31,13 @@ led = Pin(25, Pin.OUT)
 
 
 
-ssid = 'VALENZUELA WIFI'
-password = 'Dermovate98$'
+ssid = 'Room123'
+password = 'SOstefanoSSI47779'
 mqtt_server = 'research.upb.edu'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
 client_id = ubinascii.hexlify(machine.unique_id())
-topic_sub = b'upb/ds/class'
+topic_sub = b'upb/master/response'
 topic_pub = b'hello'
 
 last_message = 0
