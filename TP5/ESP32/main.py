@@ -108,7 +108,7 @@ def sub_cb(topic, msg):
       screen2 =[[0,30, msgoled]]
       scroll_in_screen(screen2)
       workerid = msgjson["worker"]
-      worker_sub = b'upb/%d/response' % workerid
+      worker_sub = b'upb/%d/response' % idesp32
       worker_pub = b'upb/%d/request' % workerid
       try:
         client = subscribe_Worker()
