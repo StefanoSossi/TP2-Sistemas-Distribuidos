@@ -142,5 +142,6 @@ except OSError as e:
 while True:
   try:
     client.check_msg()
+    #print('client on '+clien)
   except OSError as e:
     restart_and_reconnect()
