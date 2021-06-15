@@ -9,6 +9,20 @@ http.createServer(function (req, res) {
   res.end(); //end the response
 }).listen(8080); //the server object listens on port 8080 
 
+let address = process.env.ADDRESS;
+let PORT = process.env.PORT;
+const options = {
+    host: address,
+    port: PORT,
+    keepalive: 60,
+};
+let client = mqtt.connect(options); 
+let topic = process.env.TOPIC // upb/master/+
+
+client.on('connect', () => {
+    console.log("Connected to topic: " + topic);
+    client.subscribe(topic)
+})
 
 MongoClient.connect(url, function(err, db) {
   if (err) throw err;
@@ -26,18 +40,7 @@ MongoClient.connect(url, function(err, db) {
     });
   }); 
 
-let address = process.env.ADDRESS;
-let PORT = process.env.PORT;
-const options = {
-    host: address,
-    port: PORT,
-    keepalive: 60,
-};
-var client = mqtt.connect(options); 
-let topic= process.env.TOPIC // upb/master/+
-client.on('connect', () => {
-    client.subscribe(topic)
-})
+
 client.on('message', function (topic, message) { 
     if(topic == 'upb/master/register')
     {
