@@ -24,12 +24,6 @@ client.on('connect', () => {
 })
 
 MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  console.log("Database created!");
-  db.close();
-});
-
-MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("tp5-db");
     dbo.createCollection("workers", function(err, res) {
@@ -37,8 +31,29 @@ MongoClient.connect(url, function(err, db) {
       console.log("Collection created!");
       db.close();
     });
-  }); 
+  });
 
+MongoClient.connect(mongoUri, function(error, database) {
+    if(error != null) {
+        throw error;
+    }
+
+    var collection = database.collection("workers");
+    collection.createIndex( { "topic" : 1 } );
+
+    client.on('message', function (topic, message) {
+        var messageObject = {
+            topic: topic,
+            message: message.toString()
+        };
+
+        collection.insert(messageObject, function(error, result) {
+            if(error != null) {
+                console.log("ERROR: " + error);
+            }
+        });
+    });
+});
 
 client.on('message', function (topic, message) { 
     if(topic == 'upb/master/register')
