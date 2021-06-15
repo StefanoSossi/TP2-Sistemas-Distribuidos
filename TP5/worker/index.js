@@ -22,7 +22,7 @@ const client = mqtt.connect(options);
 const topicMaster='upb/master/register'
 
 let contip = "";
-let id = await getId();
+let id = getId();
 const topicEsp32 = 'upb/'+id+'/response'
 let ip = dockerIpTools.getContainerIp()
   .then((containerIp) => saveIp(containerIp) );

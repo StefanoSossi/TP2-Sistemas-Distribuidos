@@ -62,7 +62,7 @@ def work_led(freq, iteration):
     
 ##Subscriber
 
-def connect():
+def connectBroker():
   global client_id, mqtt_server
   client = MQTTClient(client_id, mqtt_server)
   client.set_callback(sub_cb)
@@ -70,14 +70,14 @@ def connect():
   return client
 
 def subscribe_master():
-  client = connect()
+  client = connectBroker()
   client.subscribe(master_sub)
   print('Connected to %s MQTT Master, subscribed to %s topic' % (mqtt_server, master_sub))
   request_worker()
   return client
 
 def subscribe_Worker():
-  client = connect()
+  client = connectBroker()
   client.subscribe(worker_sub)
   print('Connected to %s MQTT Worker, subscribed to %s topic' % (mqtt_server, worker_sub))
   request_work()
