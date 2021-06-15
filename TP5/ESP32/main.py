@@ -15,7 +15,7 @@ def restart_and_reconnect():
   time.sleep(10)
   machine.reset()
 
-def request_worker()
+def request_worker():
   try:
     client.check_msg()
     #msg al master ==> {sensor_id : "", worker : "" }
@@ -32,7 +32,7 @@ def request_worker()
   except OSError as e:
     restart_and_reconnect()
 
-def request_work()
+def request_work():
   try:
     #client.check_msg()
     #msg al worker ==> {sensor_id : "" }
@@ -47,7 +47,7 @@ def request_work()
   except OSError as e:
     restart_and_reconnect()
 
-def work_led(freq, iteration)
+def work_led(freq, iteration):
   global oled, i2c_rst, idesp32, workerid, led
   i = 0
   msgoled = b'working'
@@ -67,16 +67,17 @@ def connect():
   client = MQTTClient(client_id, mqtt_server)
   client.set_callback(sub_cb)
   client.connect()
+  return client
 
 def subscribe_master():
-  connect()
+  client = connect()
   client.subscribe(master_sub)
   print('Connected to %s MQTT Master, subscribed to %s topic' % (mqtt_server, master_sub))
   request_worker()
   return client
 
 def subscribe_Worker():
-  connect()
+  client = connect()
   client.subscribe(worker_sub)
   print('Connected to %s MQTT Worker, subscribed to %s topic' % (mqtt_server, worker_sub))
   request_work()

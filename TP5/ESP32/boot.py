@@ -40,8 +40,8 @@ mqtt_server = 'research.upb.edu'
 client_id = ubinascii.hexlify(machine.unique_id())
 master_sub = b'upb/master/response'
 master_pub = b'upb/master/request'
-worker_sub = ''
-worker_pub = ''
+worker_sub = b''
+worker_pub = b''
 
 
 last_message = 0
