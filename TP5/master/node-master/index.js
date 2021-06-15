@@ -13,8 +13,7 @@ let address = process.env.ADDRESS;
 let PORT = process.env.PORT;
 const options = {
     host: address,
-    port: PORT,
-    keepalive: 60,
+    port: PORT
 };
 let client = mqtt.connect(options); 
 let topic = process.env.TOPIC // upb/master/+
