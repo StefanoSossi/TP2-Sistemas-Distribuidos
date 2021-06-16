@@ -19,33 +19,38 @@ const options = {
     // ca: TRUSTED_CA_LIST
 };
 const client = mqtt.connect(options);
-const topicMaster='upb/master/register'
+const topicMaster='upb/master/register';
 
 let contip = "";
-
 let ip = dockerIpTools.getContainerIp()
   .then((containerIp) => saveIp(containerIp) );
-  console.log("Ip: " + contip);
+  //console.log("Ip: " + contip);
 
 
 client.on('connect', () => {
     publishMaster();
+    
 })
 client.on('message', function (topic, message) {
     console.log("[Received] topic: " + topic.toString());  //Print topic name
     console.log("[Received] message: " + message.toString()); //Print payload
-    let id = message["sensor_id"];
-    let topicEsp32 = 'upb/'+id+'/response'
-    client.subscribe(topicEsp32)
+    let msg = JSON.parse(message);
+    let id = msg["sensor_id"];
+    let topicEsp32 = 'upb/'+id+'/response';
+    console.log('topic new: '+topicEsp32);
     publishEsp32(topicEsp32);
 })
 
 async function publishMaster() {
+  console.log('publish to master ');
   let id = await getId();
   let obj = {
         "worker_id" : id
         };
   client.publish(topicMaster, JSON.stringify(obj));
+  let topicEsp32 = 'upb/'+id+'/request';
+  client.subscribe(topicEsp32);
+  console.log("coneccted to " + topicEsp32);
 }
 async function publishEsp32(topicEsp32) {
   let freq = Math.random() * (maxfreq - minfreq) + minfreq;
@@ -59,6 +64,8 @@ async function publishEsp32(topicEsp32) {
         };
   
   client.publish(topicEsp32, JSON.stringify(obj));
+  console.log('publish to esp32 ' + topicEsp32);
+  console.log('data: ' + freq + ' ' + iteration );
 }
 
 
