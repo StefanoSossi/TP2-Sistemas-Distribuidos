@@ -120,7 +120,7 @@ def work_led(freq, iteration):
   oled.show()
   screen2 =[[0,30, msgoled]]
   scroll_in_screen(screen2)
-  while i <= int(round(float(iteration))):
+  while i <= int(iteration):
     led.value(1)
     print('led on ')
     sleep(float(freq))

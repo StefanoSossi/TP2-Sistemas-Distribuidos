@@ -56,7 +56,7 @@ async function publishEsp32(topicEsp32) {
   let freq = Math.random() * (maxfreq - minfreq) + minfreq;
   freq = freq.toFixed(2);
   let iteration = Math.random() * (maxite - minite) + minite;
-  iteration = iteration.toFixed(2);
+  iteration = Math.round(iteration);
   
   let obj = {
         "freq" : freq,
