@@ -25,10 +25,6 @@ services:
             build: ./Master/node-master
             ports:
                - 8080:8080  
-            environment:
-                - PORT=11232
-                - ADDRESS=research.upb.edu
-                - TOPIC=upb/master/+
             deploy:
                 replicas: 1
                 placement:
@@ -45,7 +41,7 @@ services:
                 - ADDRESS=10.1.2.123
                 - TOPIC=upb/master/register
             deploy:
-                replicas: 5
+                replicas: 10
                 placement:
                       constraints: [node.role == worker]
 
