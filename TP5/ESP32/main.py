@@ -112,7 +112,7 @@ def request_work():
     restart_and_reconnect()
 
 def work_led(freq, iteration):
-  print('freq '+ freq+ ' ite '+iteration)
+  print('freq '+ str(freq)+ ' ite '+ str(iteration))
   global oled, i2c_rst, idesp32, workerid, led
   i = 0
   msgoled = b'working'

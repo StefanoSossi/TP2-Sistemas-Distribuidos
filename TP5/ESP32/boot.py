@@ -32,8 +32,8 @@ oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
 led = Pin(25, Pin.OUT)
 
 
-ssid = 'Room123'
-password = 'SOstefanoSSI47779'
+ssid = 'VALENZUELA WIFI'
+password = 'Dermovate98$'
 mqtt_server = 'research.upb.edu'
 #EXAMPLE IP ADDRESS
 #mqtt_server = '192.168.1.144'
