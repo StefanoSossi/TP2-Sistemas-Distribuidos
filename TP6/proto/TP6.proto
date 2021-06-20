@@ -24,7 +24,7 @@ package TP6;
 // The greeting service definition.
 service Greeter {
   rpc register (RegisterRequest) returns (RegisterReply) {}
-  rpc sendTask (null) returns (sendTaskReply) {}
+  rpc sendTask (sendTaskRequest) returns (sendTaskReply) {}
 }
 
 // The request message containing the user's name.
@@ -39,7 +39,7 @@ message RegisterReply {
 }
 
 message sendTaskRequest {
-  string worker_id = 1;
+  null = 1;
 }
 
 message sendTaskReply {

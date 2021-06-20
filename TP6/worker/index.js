@@ -23,7 +23,7 @@ const clientMQTT = mqtt.connect(options);
 let ip = dockerIpTools.getContainerIp()
   .then((containerIp) => saveIp(containerIp) );
   //console.log("Ip: " + contip);
-var PROTO_PATH = __dirname + '/TP6.proto';
+var PROTO_PATH = __dirname + '/../proto/TP6.proto';
 var grpc = require('@grpc/grpc-js');
 var protoLoader = require('@grpc/proto-loader');
 var packageDefinition = protoLoader.loadSync(
