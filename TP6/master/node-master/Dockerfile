@@ -6,5 +6,7 @@ COPY ./startmaster.sh /app/startmaster.sh
 COPY ./wait-for /app/wait-for
 RUN npm install && npm ls
 COPY ./index.js /app/
+COPY ../../proto /app/
+COPY ./greeter_server.js /app/
 
 CMD ["./startmaster.sh","npm", "start"]

@@ -1,0 +1,50 @@
+version: "3.0" 
+services:
+   mqtt:
+            image: eclipse-mosquitto
+            ports: 
+               - 1883:1883
+            volumes:
+               - /tmp/mosquitto.conf:/mosquitto/config/mosquitto.conf
+            deploy:
+                replicas: 1
+                restart_policy:
+                      condition: on-failure
+                placement: 
+                      constraints: [node.role == manager]
+   mongo:
+            image: mongo
+            ports:
+               - 27017:27017
+            deploy:
+                replicas: 1
+                placement:
+                      constraints: [node.role == manager]                 
+   node-mastergRPC:
+            image: node-master
+            build: ./Master/node-master
+            ports:
+               - 8080:8080  
+            deploy:
+                replicas: 1
+                placement:
+                       constraints: [node.role == manager]
+            depends_on:
+                - mongo
+   workergRPC:
+            image: worker
+            build: ./worker
+            ports:
+                 - "8888:8888"
+            environment:
+                - PORT=1883
+                - ADDRESS=10.1.2.123
+                - TOPIC=upb/master/register
+            deploy:
+                replicas: 10
+                placement:
+                      constraints: [node.role == worker]
+
+
+
+
