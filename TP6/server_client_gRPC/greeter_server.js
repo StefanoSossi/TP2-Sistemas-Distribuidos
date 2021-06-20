@@ -65,3 +65,4 @@ function main() {
 }
 
 main();
+setInterval(sayHello, 2500);
