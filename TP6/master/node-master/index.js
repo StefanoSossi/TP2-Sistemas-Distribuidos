@@ -1,16 +1,9 @@
 const mqtt = require("mqtt");
 const mongodb = require("mongodb");
 const uri = "mongodb://mongo:27017/";
+const url = "mongodb://mongo:27017/tp6-db";
 const http = require("http");
-import mainConnectGRPC from "./greeter_server";
-
-//create a server object:
-http
-  .createServer(function (req, res) {
-    res.write("OK"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
+var PROTO_PATH = __dirname + "/../../proto/TP6.proto";
 
 let address = "research.upb.edu";
 let PORT = 11232;
@@ -21,10 +14,58 @@ const options = {
 let client = mqtt.connect(options);
 let topic = "upb/master/+"; // upb/master/+
 
+var grpc = require("@grpc/grpc-js");
+var protoLoader = require("@grpc/proto-loader");
+var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+});
+var hello_proto = grpc.loadPackageDefinition(packageDefinition).TP6;
+
+const maxfreq = 1.5;
+const minfreq = 0.5;
+const maxite = 20;
+const minite = 5;
+
+
+var sensor_id = '';
+var worker = '';
+
+
+//create a server object:
+http
+  .createServer(function (req, res) {
+    res.write("OK"); //write a response to the client
+    res.end(); //end the response
+  })
+  .listen(8080); //the server object listens on port 8080
+
+  mongodb.MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    console.log("Database created!");
+    db.close();
+  });
+  
+  mongodb.MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = db.db("tp6-db");
+    dbo.createCollection("workers", function (err, res) {
+      if (err) throw err;
+      console.log("Collection created!");
+    });
+    db.close();
+  });
+  //let workers = [];
+
 client.on("connect", () => {
   console.log("Connected to topic: " + topic);
   client.subscribe(topic);
 });
+
+mainConnectGRPC();
 
 mongodb.MongoClient.connect(uri, function (error, database) {
   if (error != null) {
@@ -36,11 +77,7 @@ mongodb.MongoClient.connect(uri, function (error, database) {
     console.log("Collection created!");
   });
   var collection = dbo.collection("workers");
-  
-  var sensor_id = '';
-  var worker = '';
 
-  mainConnectGRPC();
 
   client.on("message", async function (topic, message) {
     if (topic == "upb/master/request") {
@@ -80,4 +117,48 @@ mongodb.MongoClient.connect(uri, function (error, database) {
   });
 });
 
-export { sensor_id , worker };
+function register(call, callback) {
+  let freq = Math.random() * (maxfreq - minfreq) + minfreq;
+  freq = freq.toFixed(2);
+  let iteration = Math.random() * (maxite - minite) + minite;
+  iteration = Math.round(iteration);
+  let obj = "freq :" + freq + "iteration :" + iteration;
+  console.log("worker id = " + call.request.worker_id);
+  let message = {
+    worker_id: call.request.worker_id
+  };
+
+  mongodb.MongoClient.connect(url, function (err, db) {
+    if (err) throw err;
+    var dbo = database.db("tp6-db");
+    var collection = dbo.collection("workers");
+    collection.insertOne(JSON.parse(message), function (error, result) {
+      if (error != null) {
+        console.log("ERROR: " + error);
+      }
+      console.log("1 document inserted");
+    });
+    db.close();
+  });
+ // workers.push(call);
+  callback(null, { freq: Number(freq) , iteration: Number(iteration) });
+}
+
+function sendTask(call, callback) {
+  if(sensor_id != ''){
+  callback(null,{ sensor_id: sensor_id, worker: worker_id})
+  }
+}
+
+function mainConnectGRPC() {
+  var server = new grpc.Server();
+  server.addService(hello_proto.Greeter.service, { register: register, sendTask: sendTask});
+  server.bindAsync(
+    "0.0.0.0:50051",
+    grpc.ServerCredentials.createInsecure(),
+    () => {
+      server.start();
+    }
+  );
+}
+

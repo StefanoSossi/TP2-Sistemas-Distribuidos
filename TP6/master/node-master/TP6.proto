@@ -34,12 +34,12 @@ message RegisterRequest {
 
 // The response message containing the greetings
 message RegisterReply {
-  number freq = 1;
-  number iteration = 2;
+  int32 freq = 1;
+  int32 iteration = 2;
 }
 
 message sendTaskRequest {
-  null = 1;
+  string req = 1;
 }
 
 message sendTaskReply {
