@@ -1,0 +1,2 @@
+obj\Debug\netcoreapp3.1\Protos/TP6.cs \
+obj\Debug\netcoreapp3.1\Protos/TP6Grpc.cs: Protos/TP6.proto
