@@ -14,6 +14,7 @@
 
 syntax = "proto3";
 
+option csharp_namespace = "GrpcClient";
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.helloworld";
 option java_outer_classname = "HelloWorldProto";
@@ -23,8 +24,8 @@ package TP6;
 
 // The greeting service definition.
 service Greeter {
-  rpc register (RegisterRequest) returns (RegisterReply) {}
-  rpc sendTask (sendTaskRequest) returns (sendTaskReply) {}
+  rpc register (RegisterRequest) returns (RegisterReply);
+  rpc sendTask (sendTaskRequest) returns (sendTaskReply);
 }
 
 // The request message containing the user's name.
@@ -38,9 +39,7 @@ message RegisterReply {
   int32 iteration = 2;
 }
 
-message sendTaskRequest {
-  string req = 1;
-}
+message sendTaskRequest {} // we send empty taskrequest.
 
 message sendTaskReply {
   string sensor_id = 1;

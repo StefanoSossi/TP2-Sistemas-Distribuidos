@@ -4,6 +4,8 @@ const uri = "mongodb://mongo:27017/";
 const url = "mongodb://mongo:27017/tp6-db";
 const http = require("http");
 var PROTO_PATH = __dirname + "/TP6.proto";
+var sensor_id = '';
+var worker = '';
 
 let address = "research.upb.edu";
 let PORT = 11232;
@@ -25,16 +27,6 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 var hello_proto = grpc.loadPackageDefinition(packageDefinition).TP6;
 
-const maxfreq = 1.5;
-const minfreq = 0.5;
-const maxite = 20;
-const minite = 5;
-
-
-var sensor_id = '';
-var worker = '';
-
-
 //create a server object:
 http
   .createServer(function (req, res) {
@@ -42,13 +34,13 @@ http
     res.end(); //end the response
   })
   .listen(8080); //the server object listens on port 8080
-
+//Creating a mongodb database
   mongodb.MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     console.log("Database created!");
     db.close();
   });
-  
+// Creating collection
   mongodb.MongoClient.connect(uri, function (err, db) {
     if (err) throw err;
     var dbo = db.db("tp6-db");
@@ -58,8 +50,8 @@ http
     });
     db.close();
   });
-  //let workers = [];
 
+//Connectig to mqtt brocker
 client.on("connect", () => {
   console.log("Connected to topic: " + topic);
   client.subscribe(topic);
@@ -114,12 +106,18 @@ mongodb.MongoClient.connect(uri, function (error, database) {
 });
 
 function register(call, callback) {
+  const maxfreq = 1.5;
+  const minfreq = 0.5;
+  const maxite = 20;
+  const minite = 5;
+  console.log("worker id = " + call.request.worker_id);
+
   let freq = Math.random() * (maxfreq - minfreq) + minfreq;
   freq = freq.toFixed(2);
   let iteration = Math.random() * (maxite - minite) + minite;
   iteration = Math.round(iteration);
-  let obj = "freq :" + freq + "iteration :" + iteration;
-  console.log("worker id = " + call.request.worker_id);
+
+  
   let message = {
     worker_id: call.request.worker_id
   };
@@ -136,13 +134,13 @@ function register(call, callback) {
     });
     db.close();
   });
- // workers.push(call);
-  callback(null, { freq: Number(freq) , iteration: Number(iteration) });
+
+  callback(null, { freq: freq , iteration: iteration });
 }
 
 function sendTask(call, callback) {
-  if(sensor_id != ''){
-  callback(null,{ sensor_id: sensor_id, worker: worker_id})
+  if (sensor_id != '') {
+    callback(null, { sensor_id: sensor_id, worker_id: worker_id })
   }
 }
 
@@ -151,10 +149,9 @@ function mainConnectGRPC() {
   server.addService(hello_proto.Greeter.service, { register: register, sendTask: sendTask});
   server.bindAsync(
     "0.0.0.0:50051",
-    grpc.ServerCredentials.createInsecure(),
-    () => {
-      server.start();
-    }
-  );
+    grpc.ServerCredentials.createInsecure(), (err,port) => {
+      console.log("Server running at http://0.0.0.0:50051")
+        server.start();
+    });
 }
 
