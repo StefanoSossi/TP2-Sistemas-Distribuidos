@@ -3,7 +3,7 @@ const mongodb = require("mongodb");
 const uri = "mongodb://mongo:27017/";
 const url = "mongodb://mongo:27017/tp6-db";
 const http = require("http");
-var PROTO_PATH = __dirname + "/../../proto/TP6.proto";
+var PROTO_PATH = __dirname + "/TP6.proto";
 
 let address = "research.upb.edu";
 let PORT = 11232;
@@ -49,7 +49,7 @@ http
     db.close();
   });
   
-  mongodb.MongoClient.connect(url, function (err, db) {
+  mongodb.MongoClient.connect(uri, function (err, db) {
     if (err) throw err;
     var dbo = db.db("tp6-db");
     dbo.createCollection("workers", function (err, res) {
