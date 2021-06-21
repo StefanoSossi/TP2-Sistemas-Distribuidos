@@ -72,10 +72,6 @@ mongodb.MongoClient.connect(uri, function (error, database) {
     throw error;
   }
   var dbo = database.db("tp6-db");
-  dbo.createCollection("workers", function (err, res) {
-    if (err) throw err;
-    console.log("Collection created!");
-  });
   var collection = dbo.collection("workers");
 
 

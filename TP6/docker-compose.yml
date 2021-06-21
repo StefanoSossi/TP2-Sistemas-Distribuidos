@@ -21,7 +21,7 @@ services:
                 placement:
                       constraints: [node.role == manager]                 
    node-mastergRPC:
-            image: node-master
+            image: master/node-master
             build: ./master/node-master
             ports:
                - 8080:8080  
