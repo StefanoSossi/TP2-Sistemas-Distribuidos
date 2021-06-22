@@ -47,6 +47,10 @@ namespace GrpcClient {
 
     static readonly grpc::Marshaller<global::GrpcClient.HelloRequest> __Marshaller_TP6_HelloRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.HelloRequest.Parser));
     static readonly grpc::Marshaller<global::GrpcClient.HelloReply> __Marshaller_TP6_HelloReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.HelloReply.Parser));
+    static readonly grpc::Marshaller<global::GrpcClient.RegisterRequest> __Marshaller_TP6_RegisterRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.RegisterRequest.Parser));
+    static readonly grpc::Marshaller<global::GrpcClient.RegisterReply> __Marshaller_TP6_RegisterReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.RegisterReply.Parser));
+    static readonly grpc::Marshaller<global::GrpcClient.sendTaskRequest> __Marshaller_TP6_sendTaskRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.sendTaskRequest.Parser));
+    static readonly grpc::Marshaller<global::GrpcClient.sendTaskReply> __Marshaller_TP6_sendTaskReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::GrpcClient.sendTaskReply.Parser));
 
     static readonly grpc::Method<global::GrpcClient.HelloRequest, global::GrpcClient.HelloReply> __Method_SayHello = new grpc::Method<global::GrpcClient.HelloRequest, global::GrpcClient.HelloReply>(
         grpc::MethodType.Unary,
@@ -54,6 +58,20 @@ namespace GrpcClient {
         "SayHello",
         __Marshaller_TP6_HelloRequest,
         __Marshaller_TP6_HelloReply);
+
+    static readonly grpc::Method<global::GrpcClient.RegisterRequest, global::GrpcClient.RegisterReply> __Method_register = new grpc::Method<global::GrpcClient.RegisterRequest, global::GrpcClient.RegisterReply>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "register",
+        __Marshaller_TP6_RegisterRequest,
+        __Marshaller_TP6_RegisterReply);
+
+    static readonly grpc::Method<global::GrpcClient.sendTaskRequest, global::GrpcClient.sendTaskReply> __Method_sendTask = new grpc::Method<global::GrpcClient.sendTaskRequest, global::GrpcClient.sendTaskReply>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "sendTask",
+        __Marshaller_TP6_sendTaskRequest,
+        __Marshaller_TP6_sendTaskReply);
 
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
@@ -127,6 +145,38 @@ namespace GrpcClient {
       public virtual grpc::AsyncUnaryCall<global::GrpcClient.HelloReply> SayHelloAsync(global::GrpcClient.HelloRequest request, grpc::CallOptions options)
       {
         return CallInvoker.AsyncUnaryCall(__Method_SayHello, null, options, request);
+      }
+      public virtual global::GrpcClient.RegisterReply register(global::GrpcClient.RegisterRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return register(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GrpcClient.RegisterReply register(global::GrpcClient.RegisterRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_register, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcClient.RegisterReply> registerAsync(global::GrpcClient.RegisterRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return registerAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcClient.RegisterReply> registerAsync(global::GrpcClient.RegisterRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_register, null, options, request);
+      }
+      public virtual global::GrpcClient.sendTaskReply sendTask(global::GrpcClient.sendTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return sendTask(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual global::GrpcClient.sendTaskReply sendTask(global::GrpcClient.sendTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.BlockingUnaryCall(__Method_sendTask, null, options, request);
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcClient.sendTaskReply> sendTaskAsync(global::GrpcClient.sendTaskRequest request, grpc::Metadata headers = null, global::System.DateTime? deadline = null, global::System.Threading.CancellationToken cancellationToken = default(global::System.Threading.CancellationToken))
+      {
+        return sendTaskAsync(request, new grpc::CallOptions(headers, deadline, cancellationToken));
+      }
+      public virtual grpc::AsyncUnaryCall<global::GrpcClient.sendTaskReply> sendTaskAsync(global::GrpcClient.sendTaskRequest request, grpc::CallOptions options)
+      {
+        return CallInvoker.AsyncUnaryCall(__Method_sendTask, null, options, request);
       }
       /// <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
       protected override GreeterClient NewInstance(ClientBaseConfiguration configuration)

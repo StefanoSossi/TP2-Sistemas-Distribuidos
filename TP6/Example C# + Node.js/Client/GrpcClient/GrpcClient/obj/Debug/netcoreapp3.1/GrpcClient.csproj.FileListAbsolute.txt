@@ -24,3 +24,10 @@ C:\Users\vince\source\repos\GrpcClient\GrpcClient\bin\Debug\netcoreapp3.1\runtim
 C:\Users\vince\source\repos\GrpcClient\GrpcClient\bin\Debug\netcoreapp3.1\runtimes\osx-x64\native\libgrpc_csharp_ext.x64.dylib
 C:\Users\vince\source\repos\GrpcClient\GrpcClient\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\grpc_csharp_ext.x64.dll
 C:\Users\vince\source\repos\GrpcClient\GrpcClient\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\grpc_csharp_ext.x86.dll
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.csprojAssemblyReference.cache
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.csproj.CoreCompileInputs.cache
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.AssemblyInfoInputs.cache
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.AssemblyInfo.cs
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.dll
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.pdb
+C:\Stefano\Sistemas Distribuidos\Practica6\git\TP2-Sistemas-Distribuidos\TP6\Example C# + Node.js\Client\GrpcClient\GrpcClient\obj\Debug\netcoreapp3.1\GrpcClient.csproj.AssemblyReference.cache
