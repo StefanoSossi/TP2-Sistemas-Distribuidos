@@ -14,7 +14,7 @@ namespace GrpcClient
 {
     class Program
     {
-        const string DefaultHost = "localhost";
+        const string DefaultHost = "10.1.2.123";
         const int Port = 50051;
         
         
