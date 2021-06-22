@@ -116,7 +116,7 @@ function register(call, callback) {
 
   mongodb.MongoClient.connect(url, function (err, db) {
     if (err) throw err;
-    var dbo = database.db("tp6-db");
+    var dbo = db.db("tp6-db");
     var collection = dbo.collection("workers");
     collection.insertOne(JSON.parse(message), function (error, result) {
       if (error != null) {
