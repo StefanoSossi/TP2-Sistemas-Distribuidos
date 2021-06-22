@@ -111,14 +111,14 @@ function register(call, callback) {
 
   
   let message = {
-    worker_id: call.request.worker_id
+    "worker_id": call.request.worker_id
   };
-
+  console.log("message: " + message)
   mongodb.MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("tp6-db");
     var collection = dbo.collection("workers");
-    collection.insertOne(JSON.parse(message), function (error, result) {
+    collection.insertOne(message, function (error, result) {
       if (error != null) {
         console.log("ERROR: " + error);
       }
