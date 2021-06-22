@@ -1,3 +1,3 @@
 #!/bin/sh
 
-docker build -f GrpcClient/Dockerfile -t GrpcClient GrpcClient
+docker build -f grpcclient/Dockerfile -t grpcclient grpcclient

@@ -32,7 +32,7 @@ services:
             depends_on:
                 - mongo
    workergRPC:
-            image: worker
+            image: grpcclient
             build: ./worker
             ports:
                  - "8888:8888"
