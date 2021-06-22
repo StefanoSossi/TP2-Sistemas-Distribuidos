@@ -16,9 +16,9 @@ namespace GrpcClient
     {
         const string DefaultHost = "10.1.2.123";
         const int Port = 50051;
-        
-        
-        public static void  Main(string[] args)
+
+
+        public static void Main(string[] args)
         {
             RunAsync(args).Wait();
         }
@@ -50,58 +50,58 @@ namespace GrpcClient
 
                 mqttClient.ConnectAsync(options).Wait();
 
-            
 
 
 
 
-            //
 
-            Console.WriteLine($"Target: {channelTarget}");
+                //
 
-            // Create a channel
-            var channel = new Channel(channelTarget, ChannelCredentials.Insecure);
+                Console.WriteLine($"Target: {channelTarget}");
 
-            try
-            {
-                // Create a client with the channel
-                var client = new Greeter.GreeterClient(channel);
+                // Create a channel
+                var channel = new Channel(channelTarget, ChannelCredentials.Insecure);
 
-                // Create a request
-                /*
-                var request = new HelloRequest
+                try
                 {
-                    Name = "RequestCLI",
-                };
+                    // Create a client with the channel
+                    var client = new Greeter.GreeterClient(channel);
 
-                // Send the request
-                Console.WriteLine("GreeterClient sending request");
-                var response = await client.SayHelloAsync(request);
+                    // Create a request
+                    /*
+                    var request = new HelloRequest
+                    {
+                        Name = "RequestCLI",
+                    };
 
-                Console.WriteLine("GreeterClient received response: " + response.Message);
-                */
-                string worker_id = System.Environment.MachineName;
+                    // Send the request
+                    Console.WriteLine("GreeterClient sending request");
+                    var response = await client.SayHelloAsync(request);
 
-                var requestRegister = new RegisterRequest
-                {
-                    WorkerId = worker_id,
-                };
-                // send register
-                var responseRegister = await client.registerAsync(requestRegister);
+                    Console.WriteLine("GreeterClient received response: " + response.Message);
+                    */
+                    string worker_id = System.Environment.MachineName;
 
-                Console.WriteLine("GreeterClient received response: " + responseRegister.Freq + " ; " + responseRegister.Iteration);
-                var freq = responseRegister.Freq;
-                var iteration = responseRegister.Iteration;
-                while (true)
-                {
-                    receiveSensorId(client, mqttClient, freq, iteration, worker_id);
+                    var requestRegister = new RegisterRequest
+                    {
+                        WorkerId = worker_id,
+                    };
+                    // send register
+                    var responseRegister = await client.registerAsync(requestRegister);
+
+                    Console.WriteLine("GreeterClient received response: " + responseRegister.Freq + " ; " + responseRegister.Iteration);
+                    var freq = responseRegister.Freq;
+                    var iteration = responseRegister.Iteration;
+                    while (true)
+                    {
+                        receiveSensorId(client, mqttClient, freq, iteration, worker_id);
+                    }
                 }
-            }
-            finally
-            {
-                // Shutdown
-                await channel.ShutdownAsync();
-            }
+                finally
+                {
+                    // Shutdown
+                    await channel.ShutdownAsync();
+                }
             }
             catch (Exception e)
             {
@@ -111,10 +111,10 @@ namespace GrpcClient
 
 
         }
-        private static async void publishToEsp32(IMqttClient mqttClient, string topic, float freq, int iteration)
+        private static async void publishToEsp32(IMqttClient mqttClient, string topic, float freq, int iteration, string worker_id)
         {
 
-            string msg = "{ \"freq\" : "+ freq + ",\"iteration\" : " + iteration + "}";
+            string msg = "{ \"freq\" : " + freq + ",\"iteration\" : " + iteration + ",\"worker_id\" : " + worker_id + "}";
 
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(topic)
@@ -126,16 +126,17 @@ namespace GrpcClient
             await mqttClient.PublishAsync(message);
         }
 
-        private static async void receiveSensorId(Greeter.GreeterClient client,IMqttClient mqttClient,float freq, int iteration, string worker_id)
+        private static async void receiveSensorId(Greeter.GreeterClient client, IMqttClient mqttClient, float freq, int iteration, string worker_id)
         {
-            var requestSendTask = new sendTaskRequest{};
+            var requestSendTask = new sendTaskRequest { };
             var responseRegister = await client.sendTaskAsync(requestSendTask);
 
             Console.WriteLine("GreeterClient received response: " + responseRegister.SensorId);
-            if (responseRegister.WorkerId.Equals(worker_id)) {
+            if (responseRegister.WorkerId.Equals(worker_id))
+            {
                 string topicEsp32 = "upb/" + responseRegister.SensorId + "/response";
-                publishToEsp32(mqttClient, topicEsp32, freq, iteration);
-            } 
+                publishToEsp32(mqttClient, topicEsp32, freq, iteration, worker_id);
+            }
         }
     }
 }
