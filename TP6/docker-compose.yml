@@ -24,7 +24,7 @@ services:
             image: master/node-master
             build: ./master/node-master
             ports:
-               - 8080:8080  
+               - 50051:50051  
             deploy:
                 replicas: 1
                 placement:
@@ -34,8 +34,6 @@ services:
    workergRPC:
             image: grpcclient
             build: ./worker
-            ports:
-                 - "8888:8888"
             environment:
                 - PORT=1883
                 - ADDRESS=10.1.2.123
