@@ -133,7 +133,7 @@ function register(call, callback) {
 
 function sendTask(call, callback) {
   if (sensor_id != '') {
-    callback(null, { sensor_id: sensor_id, worker_id: worker_id });
+    callback(null, { sensor_id: sensor_id, worker_id: worker });
   }
   else{
     callback(null, { sensor_id: sensor_id, worker_id: "" });
