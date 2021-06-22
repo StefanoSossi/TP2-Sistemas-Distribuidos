@@ -2,7 +2,6 @@ const mqtt = require("mqtt");
 const mongodb = require("mongodb");
 const uri = "mongodb://mongo:27017/";
 const url = "mongodb://mongo:27017/tp6-db";
-const http = require("http");
 var PROTO_PATH = __dirname + "/TP6.proto";
 var sensor_id = '';
 var worker = '';
@@ -27,13 +26,6 @@ var packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 var hello_proto = grpc.loadPackageDefinition(packageDefinition).TP6;
 
-//create a server object:
-http
-  .createServer(function (req, res) {
-    res.write("OK"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
 //Creating a mongodb database
   mongodb.MongoClient.connect(url, function (err, db) {
     if (err) throw err;
