@@ -113,7 +113,8 @@ function register(call, callback) {
   let message = {
     "worker_id": call.request.worker_id
   };
-  console.log("message: " + message)
+  console.log("message: ")
+  console.log(message);
   mongodb.MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("tp6-db");
