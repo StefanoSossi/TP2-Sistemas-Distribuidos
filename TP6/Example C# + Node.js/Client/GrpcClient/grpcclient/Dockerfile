@@ -6,4 +6,4 @@ EXPOSE 50051
 
 COPY . .
 RUN dotnet restore
-ENTRYPOINT ["./startmaster.sh","dotnet","run"]
+ENTRYPOINT ["dotnet","run"]
